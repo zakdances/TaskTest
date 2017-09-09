@@ -70,7 +70,6 @@ function paint() {
 
     tasks.forEach((task, i, a) => {
         // const task = v;
-        
         if (task && task.label) {
             const label = task.label;
             const newEl = $('<div class="container"><div class="row"><div></div><div class="label">' + label + '</div><div>Not Done</div></div></div>');

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            
+        {% endblock %}
+        
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+        {# <script src="{{ asset('build/app.js') }}"></script> #}
+        {% block javascripts %}
+            {% javascripts 
+                '@jquery'
+                '@popper'
+                '@bootstrap_js'
+                %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            {% javascripts 
+                filter='typescript'
+                '%kernel.root_dir%/Resources/public/js/*' 
+                %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            {# <script src="{{ asset('build/app.js') }}"></script> #}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,26 @@
+{
+    "name": "tasktest",
+    "version": "1.0.0",
+    "description": "A test TODOMVC",
+    "main": "./web/build/app.js",
+    "directories": {
+        "test": "tests"
+    },
+    "dependencies": {
+        "typescript": "^2.5.2"
+    },
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.14.0",
+        "bootstrap": "^4.0.0-alpha.6",
+        "jquery": "^3.2.1",
+        "node-sass": "^4.5.3",
+        "sass-loader": "^6.0.6"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": ""
+    },
+    "author": "",
+    "license": "MIT",
+    "keywords": []
+}

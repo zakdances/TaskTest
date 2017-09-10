@@ -21,6 +21,11 @@ class Task
     protected $label;
 
     /**
+    * @MongoDB\Field(type="date")
+    */
+    protected $dueDate;
+
+    /**
     * @MongoDB\Field(type="string")
     */
     protected $status;
@@ -77,5 +82,27 @@ class Task
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set dueDate
+     *
+     * @param date $dueDate
+     * @return $this
+     */
+    public function setDueDate($dueDate)
+    {
+        $this->dueDate = $dueDate;
+        return $this;
+    }
+
+    /**
+     * Get dueDate
+     *
+     * @return date $dueDate
+     */
+    public function getDueDate()
+    {
+        return $this->dueDate;
     }
 }

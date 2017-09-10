@@ -14,6 +14,16 @@ body {
 .vspace {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    border-top: 1px solid aliceblue;
-    border-bottom: 1px solid aliceblue;
+}
+
+.border-b {
+    border-bottom: 1px solid lightgray;
+}
+
+.task {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-bottom: 1px solid lightgray;
 }

@@ -16,8 +16,11 @@
         {% block javascripts %}
             {% javascripts 
                 '@jquery'
+                '@jquery_form'
+                '@moment'
                 '@popper'
                 '@bootstrap_js'
+                '@bootstrap_datepicker_js'
                 %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}

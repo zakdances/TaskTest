@@ -63,8 +63,11 @@ class DefaultController extends Controller
         $json = (object)[
             "tasks" => $this->allTasks()
         ];
+
+        $newResp = new JsonResponse();
+        $newResp->setData($json);
         // do something, like pass the $task object into a template
-        return new Response(json_encode($json));
+        return $newResp;
     }
 
     /**
@@ -72,28 +75,28 @@ class DefaultController extends Controller
      */
     public function createAction(Request $request)
     {
-        var_dump($request->request->all());
+        // var_dump($request->request->all());
         $label = $request->request->get('label', 'default label');
+        $dueDate = $request->request->get('dueDate', 'default due date');
         $status = $request->request->get('status', 'default status');
 
         $task = new Task();
         $task->setLabel($label);
+        $task->setDueDate($dueDate);
         $task->setStatus($status);
     
         $dm = $this->get('doctrine_mongodb')->getManager();
         $dm->persist($task);
         $dm->flush();
         
-        // $jso = array(
-        //     "tasks" => $this->allTasks()
-        // );
-        $jso = array(
-            "tasks" => "hello"
+        $json = array(
+            "tasks" => $this->allTasks()
         );
+
 
         $newResp = new JsonResponse();
         // $newResp->setContent('');
-        $newResp->setData($jso);
+        $newResp->setData($json);
         // return new Response('Created task id '.$task->getId());
         return $newResp;
     }

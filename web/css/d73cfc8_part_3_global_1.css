@@ -1,0 +1,39 @@
+/* * {
+    display: none !important;
+    background-color: red;
+} */
+
+body {
+    background-color: aliceblue;
+}
+
+.ispace {
+    padding: 2em;
+}
+
+.vspace {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.border-b {
+    border-bottom: 1px solid lightgray;
+}
+
+.bg-1 {
+    border: 1px solid rgba(21, 37, 33, 0.08);
+    background-color: #d2eaff;
+}
+
+.task {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-bottom: 1px solid lightgray;
+    background-color: #fcfcfc;
+}
+
+.tasks {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}

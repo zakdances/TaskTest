@@ -2,10 +2,13 @@ declare var $: any;
 declare var moment: any;
 declare var dateFromObjectId: (objectId: string) => Date;
 declare var updateTaskElementOnBackEnd: (taskEl, taskData) => void;
+declare var deleteTaskElementOnBackEnd: (taskEl, taskData) => void;
 
 var paint = (tasks: any[]) => {
+    const formModal = $('#form-modal');
     const simpleModal = $('#simple-modal');
     const container = $('#tasks');
+
     if (tasks.length > 0) {
         container.html('');
     }
@@ -20,8 +23,9 @@ var paint = (tasks: any[]) => {
             const newTaskEl = $('#task').clone();
             const dropdown = newTaskEl.find('.status .dropdown-menu').first();
             const actionIcons = newTaskEl.find('.action-icons').first();
-            const editButton = actionIcons.find('.edit-button').first();
-            const deleteButton = actionIcons.find('.delete-button').first();
+            const editButton = actionIcons.find('button.edit-button').first();
+            const deleteButton = actionIcons.find('button.delete-button').first();
+            const modalDeleteButton = simpleModal.find('button.btn-danger').first();
 
             newTaskEl.bind('update', () => {
                 updateTaskElementOnFrontEnd(newTaskEl, taskData);
@@ -29,18 +33,42 @@ var paint = (tasks: any[]) => {
             newTaskEl.bind('updateOnBackEnd', () => {
                 updateTaskElementOnBackEnd(newTaskEl, taskData);
             });
-            editButton.click(() => {
-                $('#form-modal').modal('toggle');
-            });
-            deleteButton.click(() => {
-                simpleModal.modal('toggle');
-                simpleModal.find('button.btn-danger').click(() => {
-                    
-                });
+            newTaskEl.bind('delete', () => {
+                updateTaskElementOnFrontEnd(newTaskEl, taskData, true);
+                deleteTaskElementOnBackEnd(newTaskEl, taskData);
             });
             newTaskEl.hover(() => {
                 actionIcons.toggleClass('invisible');
             });
+
+
+            const modalDeleteCallbackName = 'click.id_' + taskData._id.$id;
+
+            editButton.click(() => {
+                formModal.modal('toggle');
+                
+            });
+
+            deleteButton.click(() => {
+                simpleModal.modal('toggle');
+                modalDeleteButton.on(modalDeleteCallbackName, () => {
+                    console.log('deleting a task...');
+                    newTaskEl.trigger('delete');
+                    simpleModal.modal('toggle');
+                });
+            });
+            // const deleteClickCallback = () => {
+            //     simpleModal.modal('toggle');
+            //     simpleModal.find('button.btn-danger').first().click(() => {
+            //         newTaskEl.trigger('delete');
+            //     });
+            // };
+            
+            simpleModal.on('hidden.bs.modal', function (e) {
+                // do something...
+                modalDeleteButton.off(modalDeleteCallbackName);
+            });
+            
 
             // Setup status change
             
@@ -67,8 +95,13 @@ var paint = (tasks: any[]) => {
     });
 }
 
-var updateTaskElementOnFrontEnd = (taskEl, taskData) => {
+// TODO: Make sure to eliminate data from array if neccesary
+var updateTaskElementOnFrontEnd = (taskEl, taskData, deleteTask?: boolean) => {
     
+    if (deleteTask === true) {
+        taskEl.remove();
+        return taskEl;
+    }
     const now = moment();
     const dueDate = moment.unix(taskData.dueDate.sec);
     const diff = dueDate.unix() - now.unix();

@@ -1,4 +1,5 @@
 var paint = function (tasks) {
+    var formModal = $('#form-modal');
     var simpleModal = $('#simple-modal');
     var container = $('#tasks');
     if (tasks.length > 0) {
@@ -12,24 +13,43 @@ var paint = function (tasks) {
             var newTaskEl_1 = $('#task').clone();
             var dropdown = newTaskEl_1.find('.status .dropdown-menu').first();
             var actionIcons_1 = newTaskEl_1.find('.action-icons').first();
-            var editButton = actionIcons_1.find('.edit-button').first();
-            var deleteButton = actionIcons_1.find('.delete-button').first();
+            var editButton = actionIcons_1.find('button.edit-button').first();
+            var deleteButton = actionIcons_1.find('button.delete-button').first();
+            var modalDeleteButton_1 = simpleModal.find('button.btn-danger').first();
             newTaskEl_1.bind('update', function () {
                 updateTaskElementOnFrontEnd(newTaskEl_1, taskData);
             });
             newTaskEl_1.bind('updateOnBackEnd', function () {
                 updateTaskElementOnBackEnd(newTaskEl_1, taskData);
             });
-            editButton.click(function () {
-                $('#form-modal').modal('toggle');
-            });
-            deleteButton.click(function () {
-                simpleModal.modal('toggle');
-                simpleModal.find('button.btn-danger').click(function () {
-                });
+            newTaskEl_1.bind('delete', function () {
+                updateTaskElementOnFrontEnd(newTaskEl_1, taskData, true);
+                deleteTaskElementOnBackEnd(newTaskEl_1, taskData);
             });
             newTaskEl_1.hover(function () {
                 actionIcons_1.toggleClass('invisible');
+            });
+            var modalDeleteCallbackName_1 = 'click.id_' + taskData._id.$id;
+            editButton.click(function () {
+                formModal.modal('toggle');
+            });
+            deleteButton.click(function () {
+                simpleModal.modal('toggle');
+                modalDeleteButton_1.on(modalDeleteCallbackName_1, function () {
+                    console.log('deleting a task...');
+                    newTaskEl_1.trigger('delete');
+                    simpleModal.modal('toggle');
+                });
+            });
+            // const deleteClickCallback = () => {
+            //     simpleModal.modal('toggle');
+            //     simpleModal.find('button.btn-danger').first().click(() => {
+            //         newTaskEl.trigger('delete');
+            //     });
+            // };
+            simpleModal.on('hidden.bs.modal', function (e) {
+                // do something...
+                modalDeleteButton_1.off(modalDeleteCallbackName_1);
             });
             // Setup status change
             dropdown.children('a').each(function (i, el) {
@@ -51,7 +71,12 @@ var paint = function (tasks) {
         }
     });
 };
-var updateTaskElementOnFrontEnd = function (taskEl, taskData) {
+// TODO: Make sure to eliminate data from array if neccesary
+var updateTaskElementOnFrontEnd = function (taskEl, taskData, deleteTask) {
+    if (deleteTask === true) {
+        taskEl.remove();
+        return taskEl;
+    }
     var now = moment();
     var dueDate = moment.unix(taskData.dueDate.sec);
     var diff = dueDate.unix() - now.unix();

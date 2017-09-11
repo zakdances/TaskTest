@@ -22,7 +22,7 @@
     },
     "require": {
         "php": ">=7.1.8",
-        "ext-mongo": "*",
+        "ext-mongodb": ">=1.2.9",
         "alcaeus/mongo-php-adapter": "^1.1",
         "components/jquery": "3.2.1",
         "doctrine/doctrine-bundle": "^1.6",

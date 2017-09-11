@@ -24,9 +24,9 @@
     <br>
 
     <select name="status" id="status-select" class="bootstrap-select form-control">
-        <option value="1" selected="selected">Not Done</option>
-        <option value="2">In Progress</option>
-        <option value="3">Completed</option>
+        <option value="0" selected="selected">Not Done</option>
+        <option value="1">In Progress</option>
+        <option value="2">Completed</option>
     </select>
 <small id="status-select-help" class="form-text text-muted">What's the status of this task?</small>
     </div>
@@ -46,28 +46,18 @@
 <div id="task" class='task container' style='display: none;'>
     <div class='row align-items-center'>
         <div class='coll'>
-            {# <svg id="icon-book" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="-12.5 9 64 64" enable-background="new -12.5 9 64 64" xml:space="preserve">
-                <path fill="#AAA" d="M6.8,40.8c2.4,0.8,4.5-0.7,4.9-2.5c0.2-1.2-0.3-2.1-1.3-3.2l-0.8-0.8c-0.4-0.5-0.6-1.3-0.2-1.9
-                    c0.4-0.5,0.9-0.8,1.8-0.5c1.3,0.4,1.9,1.3,2.9,2.2c-0.4,1.4-0.7,2.9-0.9,4.2l-0.2,1c-0.7,4-1.3,6.2-2.7,7.5
-                    c-0.3,0.3-0.7,0.5-1.3,0.6c-0.3,0-0.4-0.3-0.4-0.3c0-0.3,0.2-0.3,0.3-0.4c0.2-0.1,0.5-0.3,0.4-0.8c0-0.7-0.6-1.3-1.3-1.3
-                    c-0.6,0-1.4,0.6-1.4,1.7s1,1.9,2.4,1.8c0.8,0,2.5-0.3,4.2-2.5c2-2.5,2.5-5.4,2.9-7.4l0.5-2.8c0.3,0,0.5,0.1,0.8,0.1
-                    c2.4,0.1,3.7-1.3,3.7-2.3c0-0.6-0.3-1.2-0.9-1.2c-0.4,0-0.8,0.3-1,0.8c-0.1,0.6,0.8,1.1,0.1,1.5c-0.5,0.3-1.4,0.6-2.7,0.4l0.3-1.3
-                    c0.5-2.6,1-5.7,3.2-5.8c0.2,0,0.8,0,0.8,0.4c0,0.2,0,0.2-0.2,0.5c-0.2,0.3-0.3,0.4-0.2,0.7c0,0.7,0.5,1.1,1.2,1.1
-                    c0.9,0,1.2-1,1.2-1.4c0-1.2-1.2-1.8-2.6-1.8c-1.5,0.1-2.8,0.9-3.7,2.1c-1.1,1.3-1.8,2.9-2.3,4.5c-0.9-0.8-1.6-1.8-3.1-2.3
-                    c-1.1-0.7-2.3-0.5-3.4,0.3c-0.5,0.4-0.8,1-1,1.6c-0.4,1.5,0.4,2.9,0.8,3.4l0.9,1c0.2,0.2,0.6,0.8,0.4,1.5c-0.3,0.8-1.2,1.3-2.1,1
-                    c-0.4-0.2-1-0.5-0.9-0.9c0.1-0.2,0.2-0.3,0.3-0.5s0.1-0.3,0.1-0.3c0.2-0.6-0.1-1.4-0.7-1.6c-0.6-0.2-1.2,0-1.3,0.8
-                    C4.3,38.4,4.7,40,6.8,40.8z M46.1,20.9c0-4.2-3.2-7.5-7.1-7.5h-3.8C34.8,10.8,32.7,9,30.2,9L-2.3,9.1c-2.8,0.1-4.9,2.4-4.9,5.4
-                    L-7,58.6c0,4.8,8.1,13.9,11.6,14.1l34.7-0.1c3.9,0,7-3.4,7-7.6L46.1,20.9z M-0.3,36.4c0-8.6,6.5-15.6,14.5-15.6
-                    c8,0,14.5,7,14.5,15.6S22.1,52,14.2,52C6.1,52-0.3,45-0.3,36.4z M42.1,65.1c0,1.8-1.5,3.1-3.1,3.1H4.6c-0.7,0-3-1.8-4.5-4.4h30.4
-                    c2.8,0,5-2.4,5-5.4V17.9h3.7c1.6,0,2.9,1.4,2.9,3.1V65.1L42.1,65.1z"/>
-            </svg> #}
+
         </div>
         <div class='col-1 status'>
-            <button type="button" class="btn btn-outline-success btn-sm"><div class='fa fa-circle-o'></div></button>
-            
+            <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class='fa fa-circle-o'></div></button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" data-value='0' href="javascript: void(0);">Not Done</a>
+                <a class="dropdown-item" data-value='1' href="javascript: void(0);">In Progress</a>
+                <a class="dropdown-item" data-value='2' href="javascript: void(0);">Completed</a>
+            </div>
         </div>
         <div class='label col-7'>Read the documentation to learn</div>
-        <div class='col-0'>
+        <div class='col-0 due-badge'>
             <span class="badge badge-pill badge-danger">Due Soon</span>
         </div>
         <div class='col time-label'>
@@ -118,14 +108,14 @@
                         <h6 style='margin-top: 0.0em; margin-bottom: 0.0em;'>All Tasks</h6>
                     </div>
                     <div class='col'>
-                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#form-modal">Add Task</button>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#form-modal">Add Task</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="wrapper">
-        <div class='vspace ispace borderr-b container' style='margin-top: 0.5rem; color: #9E9E9E; background-color: transparent;'>
+        <div class='vspace ispace borderr-b container' style='margin-top: 0.5rem; color: #757575; background-color: transparent;'>
             <div class='row '>
             <div class='col-9'><small>Label</small></div>
             <div><small>Due Date</small></div>

@@ -11214,6 +11214,10 @@ body {
     background-color: #F5F5F5;
 }
 
+.invis {
+    opacity: 0;
+}
+
 .ispace {
     padding: 2em;
 }
@@ -11251,8 +11255,8 @@ body {
 }
 
 .task {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
     padding-left: 2rem;
     padding-right: 2rem;
     border-bottom: 1px solid lightgray;
@@ -11260,5 +11264,6 @@ body {
 }
 
 .tasks {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); */
+    box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
 }

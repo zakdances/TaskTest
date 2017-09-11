@@ -76,6 +76,7 @@ class DefaultController extends Controller
     public function createAction(Request $request)
     {
         // var_dump($request->request->all());
+        $id = $request->request->get('_id', null);
         $label = $request->request->get('label', 'default label');
         $dueDate = $request->request->get('dueDate', 'default due date');
         $status = $request->request->get('status', 'default status');
@@ -100,5 +101,17 @@ class DefaultController extends Controller
         // return new Response('Created task id '.$task->getId());
         return $newResp;
     }
+
+    /**
+     * @Route("/updatetaskstatus")
+     */
+     public function updateTaskStatus()
+     {
+        $status = $request->request->get('status', 'default status');
+
+
+        $newResp = new JsonResponse();
+        return $newResp;
+     }
 }
 

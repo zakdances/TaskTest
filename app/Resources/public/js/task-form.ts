@@ -5,8 +5,9 @@ declare var arrayFromDBObjects: (dict: any) => any[];
 
 const formModal = $('#form-modal');
 const okButton = formModal.find('.modal-footer').find('.btn-primary');
-
 const form = $('#task-form');
+
+
 form.ajaxForm({
     dataType: 'json',
     success: (data) => {

@@ -27,7 +27,7 @@
         "alcaeus/mongo-php-adapter": "^1.1.2",
         "components/jquery": "3.2.1",
         "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/mongodb-odm-bundle": "^3.3",
+        "doctrine/mongodb-odm-bundle": "^3.3.0",
         "doctrine/orm": "^2.5",
         "eternicode/bootstrap-datepicker": "^1.7",
         "fortawesome/font-awesome": "^4.7",
@@ -66,7 +66,8 @@
         ]
     },
     "provide": {
-        "ext-mongo": "1.6.14"
+        "ext-mongo": "1.6.7",
+        "ext-mongodb": "1.2.9"
     },
     "config": {
         "sort-packages": true,

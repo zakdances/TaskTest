@@ -1,6 +1,6 @@
 {
     "name": "zacdean/tasktest",
-    "license": "proprietary",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -22,8 +22,6 @@
     },
     "require": {
         "php": ">=7.1.8",
-        "ext-mongodb": ">=1.2.9",
-        "ext-mongo": "^1.6.7",
         "alcaeus/mongo-php-adapter": "^1.1.2",
         "components/jquery": "3.2.1",
         "doctrine/doctrine-bundle": "^1.6",
@@ -66,7 +64,7 @@
         ]
     },
     "provide": {
-        "ext-mongo": "1.6.7"
+        "ext-mongo": "1.6.13"
     },
     "config": {
         "sort-packages": true,

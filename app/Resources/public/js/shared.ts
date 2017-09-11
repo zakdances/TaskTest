@@ -1,5 +1,25 @@
 declare var $: any;
 
+var deleteTaskElementOnBackEnd = (taskEl, taskData) => {
+    // console.log('adding new task programatically...');
+    // console.log(taskData);
+
+    $.ajax({
+        type: "POST",
+        url: 'deleteaction',
+        dataType: 'json',
+        data: taskData,
+        success: (data) => {
+            console.log('Task deleted programatically!');
+        },
+        error: (data, t, e) => {
+            console.log('task deleted error');
+            console.log(t);
+            console.log(e);
+        }
+      });
+}
+
 var updateTaskElementOnBackEnd = (taskEl, taskData) => {
     // console.log('adding new task programatically...');
     // console.log(taskData);

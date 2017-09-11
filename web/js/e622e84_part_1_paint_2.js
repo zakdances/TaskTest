@@ -1,4 +1,5 @@
 var paint = function (tasks) {
+    var simpleModal = $('#simple-modal');
     var container = $('#tasks');
     if (tasks.length > 0) {
         container.html('');
@@ -23,7 +24,9 @@ var paint = function (tasks) {
                 $('#form-modal').modal('toggle');
             });
             deleteButton.click(function () {
-                $('#simple-modal').modal('toggle');
+                simpleModal.modal('toggle');
+                simpleModal.find('button.btn-danger').click(function () {
+                });
             });
             newTaskEl_1.hover(function () {
                 actionIcons_1.toggleClass('invisible');

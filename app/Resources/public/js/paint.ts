@@ -4,6 +4,7 @@ declare var dateFromObjectId: (objectId: string) => Date;
 declare var updateTaskElementOnBackEnd: (taskEl, taskData) => void;
 
 var paint = (tasks: any[]) => {
+    const simpleModal = $('#simple-modal');
     const container = $('#tasks');
     if (tasks.length > 0) {
         container.html('');
@@ -32,7 +33,10 @@ var paint = (tasks: any[]) => {
                 $('#form-modal').modal('toggle');
             });
             deleteButton.click(() => {
-                $('#simple-modal').modal('toggle');
+                simpleModal.modal('toggle');
+                simpleModal.find('button.btn-danger').click(() => {
+                    
+                });
             });
             newTaskEl.hover(() => {
                 actionIcons.toggleClass('invisible');

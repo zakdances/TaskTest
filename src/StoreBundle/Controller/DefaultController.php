@@ -143,9 +143,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/deletetask")
+     * @Route("/deleteaction")
      */
-     public function deleteTask()
+     public function deleteAction(Request $request)
      {
         $data = $request->request;
 
@@ -155,6 +155,7 @@ class DefaultController extends Controller
         if (!$task) {
             throw $this->createNotFoundException('No task found for id '.$id);
         }
+
         $dm = $this->get('doctrine_mongodb')->getManager();
 
         $dm->remove($task);
@@ -165,7 +166,7 @@ class DefaultController extends Controller
         );
 
         $newResp = new JsonResponse();
-        
+
         $newResp->setData($json);
         // return new Response('Created task id '.$task->getId());
         return $newResp;

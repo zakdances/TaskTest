@@ -1,3 +1,21 @@
+var deleteTaskElementOnBackEnd = function (taskEl, taskData) {
+    // console.log('adding new task programatically...');
+    // console.log(taskData);
+    $.ajax({
+        type: "POST",
+        url: 'deleteaction',
+        dataType: 'json',
+        data: taskData,
+        success: function (data) {
+            console.log('Task deleted programatically!');
+        },
+        error: function (data, t, e) {
+            console.log('task deleted error');
+            console.log(t);
+            console.log(e);
+        }
+    });
+};
 var updateTaskElementOnBackEnd = function (taskEl, taskData) {
     // console.log('adding new task programatically...');
     // console.log(taskData);

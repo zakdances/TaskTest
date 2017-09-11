@@ -2,12 +2,16 @@
 
 
 {% block taskform %}
+
 <!-- Task Form -->
 <form id='task-form' action="/createaction" method="post">
   <div class="form-group">
     <label for="inputLabel">Task Name</label>
-    <input name="label" type="text" class="form-control" id="inputLabel" aria-describedby="labelHelp" placeholder="">
-    {# <small id="labelHelp" class="form-text text-muted">Any kind of text will work.</small> #}
+    <input name="label" type="text" title='asdasa' class="form-control" id="inputLabel" aria-describedby="labelHelp" placeholder="" required>
+    {# <small id="labelHelp" class="form-text text-muted">Give the task a name.</small> #}
+    <div class="invalid-feedback" style='display: block; opacity: 0;'>
+        Please enter a task label before saving.
+      </div>
   </div>
   <div class="form-row">
     <div class='col'>
@@ -49,14 +53,14 @@
 
         </div>
         <div class='col-1 status'>
-            <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class='fa fa-circle-o'></div></button>
+            <button type="button" class="btn btn-outline-secondary btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class='fa fa-circle-o'></div></button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" data-value='0' href="javascript: void(0);">Not Done</a>
                 <a class="dropdown-item" data-value='1' href="javascript: void(0);">In Progress</a>
                 <a class="dropdown-item" data-value='2' href="javascript: void(0);">Completed</a>
             </div>
         </div>
-        <div class='label col-7'>Read the documentation to learn</div>
+        <div class='label col-6'>Read the documentation to learn</div>
         <div class='col-0 due-badge'>
             <span class="badge badge-pill badge-danger">Due Soon</span>
         </div>
@@ -69,13 +73,30 @@
             </span>
             
         </div>
+        <div class='coll action-icons invisible'>
+            <button type="button" class="btn btn-outline-secondary btn-sm edit-button"><div class='fa fa-pencil fa-fw'></div></button>
+            <button type="button" class="btn btn-outline-secondary btn-sm delete-button"><div class='fa fa-trash fa-fw'></div></button>
+        </div>
  
     </div>
 </div>
 {% endblock %}
 
 {% block body %}
-
+    <div class='bg-2'>
+        <div class="wrapper">
+            <div class='vspacee ispacee borderr-b container' style='background-color: transparent;'>
+                <div class='row align-items-center invisible'>
+                    <div class='col-9'>
+                        <small style='margin-top: 0.0em; margin-bottom: 0.0em; font-weight: 800;'>All Tasks</small>
+                    </div>
+                    {# <div class='col'>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#form-modal">Add Task</button>
+                    </div> #}
+                </div>
+            </div>
+        </div>
+    </div>
     <div class='bg-1'>
         <div class="wrapper">
             
@@ -100,21 +121,21 @@
             
         </div>
     </div>
-    <div class='bg-2'>
+    <div class='bg-3'>
         <div class="wrapper">
-            <div class='vspace ispace borderr-b container' style='color: white; background-color: transparent;'>
+            <div class='vspace ispace borderr-b container' style='background-color: transparent;'>
                 <div class='row align-items-center'>
-                    <div class='col-9'>
-                        <h6 style='margin-top: 0.0em; margin-bottom: 0.0em;'>All Tasks</h6>
-                    </div>
+                    {# <div class='col-9'>
+                        <small style='margin-top: 0.0em; margin-bottom: 0.0em; font-weight: 800;'>All Tasks</small>
+                    </div> #}
                     <div class='col'>
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#form-modal">Add Task</button>
+                        <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#form-modal">Add Task</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="wrapper">
+    <div class="wrapper" style='padding-bottom: 3rem;'>
         <div class='vspace ispace borderr-b container' style='margin-top: 0.5rem; color: #757575; background-color: transparent;'>
             <div class='row '>
             <div class='col-9'><small>Label</small></div>
@@ -133,27 +154,30 @@
         
     </div>
     <!-- Modal -->
-<div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="form modal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Task</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {# {% block taskform %}
-        {% endblock %} #}
-        {{ block('taskform') }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="submitTaskForm()">Add Task</button>
-      </div>
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="form modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Task</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            {# {% block taskform %}
+            {% endblock %} #}
+            {{ block('taskform') }}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="submitTaskForm()">Add Task</button>
+        </div>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
+
+    {# {{ block('simplemodal') }} #}
+    {{ include('SimpleModal.html.twig') }}
 {% endblock %}
 
 {% block stylesheets %}

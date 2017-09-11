@@ -63,17 +63,33 @@ var paint = function (tasks) {
             // const time = dateFromObjectId(task._id.$id);
             // const relativeTime = moment.unix(taskData.dueDate.sec).fromNow();
             var newTaskEl_1 = $('#task').clone();
+            var dropdown = newTaskEl_1.find('.status .dropdown-menu').first();
+            var actionIcons_1 = newTaskEl_1.find('.action-icons').first();
+            var editButton = actionIcons_1.find('.edit-button').first();
+            var deleteButton = actionIcons_1.find('.delete-button').first();
             newTaskEl_1.bind('update', function () {
                 updateTaskElementOnFrontEnd(newTaskEl_1, taskData);
             });
+            newTaskEl_1.bind('updateOnBackEnd', function () {
+                updateTaskElementOnBackEnd(newTaskEl_1, taskData);
+            });
+            editButton.click(function () {
+                $('#form-modal').modal('toggle');
+            });
+            deleteButton.click(function () {
+                $('#simple-modal').modal('toggle');
+            });
+            newTaskEl_1.hover(function () {
+                actionIcons_1.toggleClass('invisible');
+            });
             // Setup status change
-            var dropdown = newTaskEl_1.find('.status .dropdown-menu').first();
             dropdown.children('a').each(function (i, el) {
                 el = $(el);
                 var val = Number(el.data('value'));
                 el.click(function () {
                     taskData.status = val;
                     newTaskEl_1.trigger('update');
+                    newTaskEl_1.trigger('updateOnBackEnd');
                 });
             });
             // newTaskEl.find('.label').html('<span>' + taskData.label + '</span>');
@@ -106,10 +122,10 @@ var updateTaskElementOnFrontEnd = function (taskEl, taskData) {
     }
     switch (Number(taskData.status)) {
         case 0:
-            statusButtonIcon.attr('class', 'fa fa-square-o fa-fw');
+            statusButtonIcon.attr('class', 'fa fa-genderless fa-fw');
             break;
         case 1:
-            statusButtonIcon.attr('class', 'fa fa-spinner fa-fw');
+            statusButtonIcon.attr('class', 'fa fa-refresh fa-fw');
             break;
         case 2:
             statusButtonIcon.attr('class', 'fa fa-check fa-fw');
@@ -120,6 +136,24 @@ var updateTaskElementOnFrontEnd = function (taskEl, taskData) {
     return taskEl;
 };
 
+var updateTaskElementOnBackEnd = function (taskEl, taskData) {
+    // console.log('adding new task programatically...');
+    // console.log(taskData);
+    $.ajax({
+        type: "POST",
+        url: 'createaction',
+        dataType: 'json',
+        data: taskData,
+        success: function (data) {
+            console.log('New task added programatically!');
+        },
+        error: function (data, t, e) {
+            console.log('task add error');
+            console.log(t);
+            console.log(e);
+        }
+    });
+};
 var dateFromObjectId = function (objectId) {
     var substring = objectId.substring(0, 8);
     return new Date(parseInt(substring, 16) * 1000);
@@ -127,8 +161,6 @@ var dateFromObjectId = function (objectId) {
 var arrayFromDBObjects = function (dict) {
     var arr = [];
     var keys = Object.keys(dict);
-    console.log('keys');
-    console.log(keys.length);
     keys.forEach(function (id, i, a) {
         var task = dict[id];
         if (task) {
@@ -137,15 +169,54 @@ var arrayFromDBObjects = function (dict) {
     });
     return arr;
 };
+var newDateWithAddedDays = function (days) {
+    var d = new Date();
+    var t = d.getTime();
+    t = t + (days * 86400000);
+    d.setTime(t);
+    return d;
+};
 
 var formModal = $('#form-modal');
 var okButton = formModal.find('.modal-footer').find('.btn-primary');
 var form = $('#task-form');
+var labelInput = form.find('input[name="label"]').first();
+var labelInputWarning = labelInput.siblings('.invalid-feedback').first();
+formModal.on('shown.bs.modal', function () {
+    labelInput.focus();
+});
+formModal.on('hidden.bs.modal', function () {
+    labelInputWarning.css('opacity', 0);
+});
 form.ajaxForm({
     dataType: 'json',
+    beforeSubmit: function (arr, $form, options) {
+        var submit = false;
+        // The array of form data takes the following form: 
+        // [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ] 
+        arr.forEach(function (v, i, a) {
+            if (v.name == 'dueDate') {
+                var dateInt = moment(v.value, 'MM-DD-YYYY').unix();
+                v.value = JSON.stringify({ sec: dateInt });
+            }
+        });
+        // Validate form
+        if ($form[0].checkValidity() == false) {
+            labelInputWarning.css('opacity', 1);
+            labelInput.focus();
+            okButton.prop('disabled', false);
+        }
+        else {
+            submit = true;
+            labelInputWarning.css('opacity', 0);
+        }
+        // return false to cancel submit                  
+        return submit;
+    },
     success: function (data) {
         console.log('Task add success:');
-        console.log(data.tasks);
+        // console.log(data.tasks);
+        labelInput.clearFields();
         okButton.prop('disabled', false);
         formModal.modal('hide');
         paint(arrayFromDBObjects(data.tasks));
@@ -153,7 +224,7 @@ form.ajaxForm({
 });
 // attach handler to form's submit event 
 form.submit(function () {
-    console.log('Submitting form...');
+    // console.log('Submitting form...');
     // return false to prevent normal browser submit and page navigation 
     return false;
 });
@@ -163,13 +234,7 @@ var submitTaskForm = function () {
     form.submit();
     // form.ajaxSubmit();
 };
-var newDateWithAddedDays = function (days) {
-    var d = new Date();
-    var t = d.getTime();
-    t = t + (days * 86400000);
-    d.setTime(t);
-    return d;
-};
+// Initalize datepicker
 var datepicker = form.find('.datepicker');
 datepicker.datepicker({
     autoclose: true

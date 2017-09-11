@@ -9,17 +9,33 @@ var paint = function (tasks) {
             // const time = dateFromObjectId(task._id.$id);
             // const relativeTime = moment.unix(taskData.dueDate.sec).fromNow();
             var newTaskEl_1 = $('#task').clone();
+            var dropdown = newTaskEl_1.find('.status .dropdown-menu').first();
+            var actionIcons_1 = newTaskEl_1.find('.action-icons').first();
+            var editButton = actionIcons_1.find('.edit-button').first();
+            var deleteButton = actionIcons_1.find('.delete-button').first();
             newTaskEl_1.bind('update', function () {
                 updateTaskElementOnFrontEnd(newTaskEl_1, taskData);
             });
+            newTaskEl_1.bind('updateOnBackEnd', function () {
+                updateTaskElementOnBackEnd(newTaskEl_1, taskData);
+            });
+            editButton.click(function () {
+                $('#form-modal').modal('toggle');
+            });
+            deleteButton.click(function () {
+                $('#simple-modal').modal('toggle');
+            });
+            newTaskEl_1.hover(function () {
+                actionIcons_1.toggleClass('invisible');
+            });
             // Setup status change
-            var dropdown = newTaskEl_1.find('.status .dropdown-menu').first();
             dropdown.children('a').each(function (i, el) {
                 el = $(el);
                 var val = Number(el.data('value'));
                 el.click(function () {
                     taskData.status = val;
                     newTaskEl_1.trigger('update');
+                    newTaskEl_1.trigger('updateOnBackEnd');
                 });
             });
             // newTaskEl.find('.label').html('<span>' + taskData.label + '</span>');
@@ -52,10 +68,10 @@ var updateTaskElementOnFrontEnd = function (taskEl, taskData) {
     }
     switch (Number(taskData.status)) {
         case 0:
-            statusButtonIcon.attr('class', 'fa fa-square-o fa-fw');
+            statusButtonIcon.attr('class', 'fa fa-genderless fa-fw');
             break;
         case 1:
-            statusButtonIcon.attr('class', 'fa fa-spinner fa-fw');
+            statusButtonIcon.attr('class', 'fa fa-refresh fa-fw');
             break;
         case 2:
             statusButtonIcon.attr('class', 'fa fa-check fa-fw');

@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use StoreBundle\Document\Task;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\LoggableCursor;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Id;
 // ...
 
@@ -23,21 +24,50 @@ class DefaultController extends Controller
         return $this->render('StoreBundle:Default:index.html.twig');
     }
 
-    private function allTasks() {
+    private function taskCollection() {
         
         // connect
         $m = $this->container->get('doctrine_mongodb.odm.default_connection');
-
+        
         // select a database
         $db = $m->selectDatabase('test_database');
 
         // select a collection (analogous to a relational database's table)
         $collection = $db->createCollection('Task');
 
+        return $collection;
+    }
+
+    private function allTasks() {
+
+        // select a collection (analogous to a relational database's table)
+        $collection = $this->taskCollection();
+
         // find everything in the collection
         $cursor = $collection->find();
         
         return iterator_to_array($cursor);
+    }
+
+    private function oneTask($id) {
+
+        // select a collection (analogous to a relational database's table)
+        // $collection = $this->taskCollection();
+
+        // $entity = $collection->findOne(array('_id' => new \MongoId($id)));
+        // $entity = $collection->find($id)->hydrate();
+
+        $repository = $this->get('doctrine_mongodb')
+            ->getManager()
+            ->getRepository('StoreBundle:Task');
+
+        $task = $repository->find($id);
+
+        if (!$task) {
+            throw $this->createNotFoundException('No task found for id '.$id);
+        }
+
+        return $task;
     }
 
     /**
@@ -75,13 +105,24 @@ class DefaultController extends Controller
      */
     public function createAction(Request $request)
     {
+        $data = $request->request;
+
+        // TODO: fix nulls so there safe
         // var_dump($request->request->all());
-        $id = $request->request->get('_id', null);
-        $label = $request->request->get('label', 'default label');
-        $dueDate = $request->request->get('dueDate', 'default due date');
-        $status = $request->request->get('status', 'default status');
+        $id = $data->get('_id', null)['$id'];
+        // $id = $id ? $id->$id : null;
+        $label = $data->get('label', 'default label');
+        // var_dump($data->get('dueDate', null));
+        $dueDate = $data->get('dueDate', null);
+        $dueDate = is_string($dueDate) ? json_decode($dueDate, true)['sec'] : $dueDate['sec'];
+        // $dueDate = $dueDate ? $dueDate->sec : null;
+        $status = $data->get('status', 'default status');
 
         $task = new Task();
+        if ($id != null && $id != '') {
+            $task = $this->oneTask($id);
+        }
+
         $task->setLabel($label);
         $task->setDueDate($dueDate);
         $task->setStatus($status);
@@ -94,7 +135,6 @@ class DefaultController extends Controller
             "tasks" => $this->allTasks()
         );
 
-
         $newResp = new JsonResponse();
         // $newResp->setContent('');
         $newResp->setData($json);
@@ -103,14 +143,31 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/updatetaskstatus")
+     * @Route("/deletetask")
      */
-     public function updateTaskStatus()
+     public function deleteTask()
      {
-        $status = $request->request->get('status', 'default status');
+        $data = $request->request;
 
+        $id = $data->get('_id', null)['$id'];
+
+        $task = $this->oneTask($id);
+        if (!$task) {
+            throw $this->createNotFoundException('No task found for id '.$id);
+        }
+        $dm = $this->get('doctrine_mongodb')->getManager();
+
+        $dm->remove($task);
+        $dm->flush();
+
+        $json = array(
+            "tasks" => $this->allTasks()
+        );
 
         $newResp = new JsonResponse();
+        
+        $newResp->setData($json);
+        // return new Response('Created task id '.$task->getId());
         return $newResp;
      }
 }

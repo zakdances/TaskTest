@@ -1,6 +1,7 @@
 declare var $: any;
 declare var moment: any;
 declare var dateFromObjectId: (objectId: string) => Date;
+declare var updateTaskElementOnBackEnd: (taskEl, taskData) => void;
 
 var paint = (tasks: any[]) => {
     const container = $('#tasks');
@@ -16,12 +17,29 @@ var paint = (tasks: any[]) => {
 
 
             const newTaskEl = $('#task').clone();
+            const dropdown = newTaskEl.find('.status .dropdown-menu').first();
+            const actionIcons = newTaskEl.find('.action-icons').first();
+            const editButton = actionIcons.find('.edit-button').first();
+            const deleteButton = actionIcons.find('.delete-button').first();
+
             newTaskEl.bind('update', () => {
                 updateTaskElementOnFrontEnd(newTaskEl, taskData);
             });
+            newTaskEl.bind('updateOnBackEnd', () => {
+                updateTaskElementOnBackEnd(newTaskEl, taskData);
+            });
+            editButton.click(() => {
+                $('#form-modal').modal('toggle');
+            });
+            deleteButton.click(() => {
+                $('#simple-modal').modal('toggle');
+            });
+            newTaskEl.hover(() => {
+                actionIcons.toggleClass('invisible');
+            });
 
             // Setup status change
-            const dropdown = newTaskEl.find('.status .dropdown-menu').first();
+            
 
             dropdown.children('a').each((i, el) => {
                 el = $(el);
@@ -30,6 +48,7 @@ var paint = (tasks: any[]) => {
                 el.click(() => {
                     taskData.status = val;
                     newTaskEl.trigger('update');
+                    newTaskEl.trigger('updateOnBackEnd');
                 });
               });
             // newTaskEl.find('.label').html('<span>' + taskData.label + '</span>');
@@ -68,10 +87,10 @@ var updateTaskElementOnFrontEnd = (taskEl, taskData) => {
 
     switch (Number(taskData.status)) {
         case 0:
-            statusButtonIcon.attr('class', 'fa fa-square-o fa-fw');
+            statusButtonIcon.attr('class', 'fa fa-genderless fa-fw');
             break;
         case 1:
-            statusButtonIcon.attr('class', 'fa fa-spinner fa-fw');
+            statusButtonIcon.attr('class', 'fa fa-refresh fa-fw');
             break;
         case 2:
             statusButtonIcon.attr('class', 'fa fa-check fa-fw');
@@ -82,3 +101,4 @@ var updateTaskElementOnFrontEnd = (taskEl, taskData) => {
 
     return taskEl;
 }
+

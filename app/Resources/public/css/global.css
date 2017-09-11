@@ -63,7 +63,8 @@ body {
 }
 
 .bg-3 {
-    background-color: #58a5f0;
+    /* background-color: #58a5f0; */
+    background-color: #0277bd;
 }
 
 .status {

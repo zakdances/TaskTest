@@ -23,7 +23,7 @@
         <small id="dateHelp" class="form-text text-muted">When is this task due?</small>
     </div>
     <div class='col'>
-    <label for="status-select">Status</label>
+        <label for="status-select">Status</label>
     {# <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> #}
     <br>
 
@@ -138,8 +138,14 @@
     <div class="wrapper" style='padding-bottom: 3rem;'>
         <div class='vspace ispace borderr-b container' style='margin-top: 0.5rem; color: #757575; background-color: transparent;'>
             <div class='row '>
-            <div class='col-9'><small>Label</small></div>
-            <div><small>Due Date</small></div>
+                <div class='col-1' style=''>
+                    <small>Status</small>
+                </div>
+                <div class='col-6'><small>Label</small></div>
+                <div class='col-0 due-badge invisible'>
+                    <span class="badge badge-pill badge-danger">Due Soon</span>
+                </div>
+                <div class='col'><small>Due Date</small></div>
             </div>
         </div>
         {{ block('taskentry') }}

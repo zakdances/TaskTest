@@ -40,6 +40,7 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.3.*",
+        "symfony/web-server-bundle": "^3.3",
         "twig/twig": "^1.0||^2.0",
         "twitter/bootstrap": "4.0.0-beta"
     },
@@ -64,7 +65,7 @@
         ]
     },
     "provide": {
-        "ext-mongo": "1.6.13"
+        "ext-mongo": "*"
     },
     "config": {
         "sort-packages": true,

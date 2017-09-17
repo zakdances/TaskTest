@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "57b02dff3b9eb5e5bc503005be1a1c51",
+    "content-hash": "b6dec8a2fab6923c80dc03e437cf44a4",
     "packages": [
         {
             "name": "components/bootstrap",
@@ -3014,6 +3014,7 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.1.8"
+        "php": "7.1.8",
+        "ext-mongodb": "1.2.9"
     }
 }

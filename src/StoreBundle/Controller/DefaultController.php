@@ -14,11 +14,11 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 // use Symfony\Component\Validator\Constraints\DateTime;
 use \DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use StoreBundle\Document\Task;
+// use StoreBundle\Document\Task;
 use StoreBundle\Entity\Task_mysql;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Doctrine\ODM\MongoDB\LoggableCursor;
-use Doctrine\ODM\MongoDB\Mapping\Annotations\Id;
+// use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+// use Doctrine\ODM\MongoDB\LoggableCursor;
+// use Doctrine\ODM\MongoDB\Mapping\Annotations\Id;
 use Doctrine\ORM\EntityManagerInterface;
 // ...
 
@@ -35,19 +35,19 @@ class DefaultController extends Controller
         return $this->render('StoreBundle:Default:index.html.twig');
     }
 
-    private function taskCollection() {
+    // private function taskCollection() {
         
-        // connect
-        $m = $this->container->get('doctrine_mongodb.odm.default_connection');
+    //     // connect
+    //     $m = $this->container->get('doctrine_mongodb.odm.default_connection');
         
-        // select a database
-        $db = $m->selectDatabase('test_database');
+    //     // select a database
+    //     $db = $m->selectDatabase('test_database');
 
-        // select a collection (analogous to a relational database's table)
-        $collection = $db->createCollection('Task');
+    //     // select a collection (analogous to a relational database's table)
+    //     $collection = $db->createCollection('Task');
 
-        return $collection;
-    }
+    //     return $collection;
+    // }
 
     private function allTasks() {
 
@@ -55,12 +55,12 @@ class DefaultController extends Controller
 
         if ($this->dbType == 'mongodb') {
             // select a collection (analogous to a relational database's table)
-            $collection = $this->taskCollection();
+            // $collection = $this->taskCollection();
         
             // find everything in the collection
-            $cursor = $collection->find();
+            // $cursor = $collection->find();
 
-            $all = iterator_to_array($cursor);
+            // $all = iterator_to_array($cursor);
         } else if ($this->dbType == 'mysql') {
 
             $all = $this->getDoctrine()
@@ -88,11 +88,11 @@ class DefaultController extends Controller
         // $entity = $collection->findOne(array('_id' => new \MongoId($id)));
         // $entity = $collection->find($id)->hydrate();
         if ($this->dbType == 'mongodb') {
-            $repository = $this->get('doctrine_mongodb')
-                ->getManager()
-                ->getRepository('StoreBundle:Task');
+            // $repository = $this->get('doctrine_mongodb')
+            //     ->getManager()
+            //     ->getRepository('StoreBundle:Task');
 
-            $task = $repository->find($id);
+            // $task = $repository->find($id);
         } else if ($this->dbType == 'mysql') {
 
             $repository = $this->getDoctrine()->getRepository(Task_mysql::class);
@@ -177,7 +177,7 @@ class DefaultController extends Controller
         
 
         if ($this->dbType == 'mongodb') {
-            $this->createaction_mongodb($task);
+            // $this->createaction_mongodb($task);
         } else if ($this->dbType == 'mysql') {
             $this->createaction_mysql($task);
         }
@@ -196,12 +196,12 @@ class DefaultController extends Controller
         return $newResp;
     }
 
-    private function createaction_mongodb(Task $task)
-    {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $dm->persist($task);
-        $dm->flush();
-    }
+    // private function createaction_mongodb(Task $task)
+    // {
+    //     $dm = $this->get('doctrine_mongodb')->getManager();
+    //     $dm->persist($task);
+    //     $dm->flush();
+    // }
 
     private function createaction_mysql(Task_mysql $task)
     {
@@ -221,27 +221,27 @@ class DefaultController extends Controller
      */
      public function deleteAction(Request $request)
      {
-        $data = $request->request;
+        // $data = $request->request;
 
-        $id = $data->get('_id', null)['$id'];
+        // $id = $data->get('_id', null)['$id'];
 
-        $task = $this->oneTask($id);
-        if (!$task) {
-            throw $this->createNotFoundException('No task found for id '.$id);
-        }
+        // $task = $this->oneTask($id);
+        // if (!$task) {
+        //     throw $this->createNotFoundException('No task found for id '.$id);
+        // }
 
-        $dm = $this->get('doctrine_mongodb')->getManager();
+        // $dm = $this->get('doctrine_mongodb')->getManager();
 
-        $dm->remove($task);
-        $dm->flush();
+        // $dm->remove($task);
+        // $dm->flush();
 
-        $json = array(
-            "tasks" => $this->allTasks()
-        );
+        // $json = array(
+        //     "tasks" => $this->allTasks()
+        // );
 
         $newResp = new JsonResponse();
 
-        $newResp->setData($json);
+        // $newResp->setData($json);
         // return new Response('Created task id '.$task->getId());
         return $newResp;
      }

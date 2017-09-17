@@ -23,5 +23,5 @@ monolog:
             type: console
             process_psr_3_messages: false
 
-assetic:
-    debug: false
+# assetic:
+#     debug: false

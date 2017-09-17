@@ -11211,7 +11211,10 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
 } */
 
 body {
-    background-color: #F5F5F5;
+    background: #F5F5F5;
+    /* font: 18px/1.5 sans-serif !important; */
+    background-image: url('https://i.imgur.com/PzIUINd.png');
+    background-repeat: repeat;
 }
 
 .invis {
@@ -11248,7 +11251,9 @@ body {
     position: relative;
 }
 
-.bg-1::before {
+
+/* .bg-1::before,
+.bg-3::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -11259,8 +11264,9 @@ body {
     background-image: url('https://i.imgur.com/PzIUINd.png');
     background-repeat: repeat;
     opacity: 0.5;
+    overflow: hidden;
     z-index: 0;
-}
+} */
 
 .bg-2 {
     /* border: 1px solid rgba(21, 37, 33, 0.08); */
@@ -11270,10 +11276,49 @@ body {
 }
 
 .bg-3 {
+    position: relative;
     /* background-color: #58a5f0; */
+    /* background-color: #0277bd; */
     background-color: #0277bd;
+    overflow: hidden;
 }
 
+
+/* .top-shadow {
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+} */
+
+.app-bar-items {
+    display: flex;
+    align-items: center;
+}
+
+.app-bar-items>div:nth-child(1) {
+    max-width: calc((100% - 800px) / 2);
+    flex-grow: 1;
+}
+
+.app-bar-items>div:nth-child(2) {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-grow: 1;
+}
+
+.app-bar-items .logo {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #ffc107;
+}
+
+.column-labels {
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+;
 .status {
     color: grey;
 }

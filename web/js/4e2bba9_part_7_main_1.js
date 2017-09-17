@@ -1,16 +1,7 @@
-declare var $: any;
-declare var moment: any;
-declare var dateFromObjectId: (objectId: string) => Date;
-declare var paint: (tasks: any[]) => void;
-declare var arrayFromDBObjects: (dict: any) => any[];
-
-const tasks = [];
-
-
-    
+var tasks = [];
 function addNewTask() {
     console.log('adding new task programatically...');
-    const data = {
+    var data = {
         label: 'task one',
         status: 'Not Done'
     };
@@ -18,26 +9,24 @@ function addNewTask() {
         type: "POST",
         url: 'createaction',
         data: data,
-        success: (data) => {
+        success: function (data) {
             console.log('New task added!');
         },
-        error: (data, t, e) => {
+        error: function (data, t, e) {
             console.log('task add error');
             console.log(t);
             console.log(e);
         },
         dataType: 'json'
-      });
+    });
 }
-
 function allTasks() {
     console.log('gettings tasks...');
     // const container = $('#tasks');
-
-    const req = $.ajax({
+    var req = $.ajax({
         type: "GET",
         url: 'showaction',
-        error: (data, t, e) => {
+        error: function (data, t, e) {
             console.log('allTasks error');
             console.log(data);
             console.log(t);
@@ -45,29 +34,22 @@ function allTasks() {
         },
         dataType: 'json'
     });
-    
-    req.then((data: any) => {
+    req.then(function (data) {
         console.log('success!');
-        
         data.tasks = arrayFromDBObjects(data.tasks);
         console.log(data);
         // const dict: {} = data.tasks;
         // console.log(data);
         // container.html('');
         // tasks.length = 0;
-
         // Object.keys(dict).forEach((id, i, a) => {
         //     const task = dict[id];
         //     if (task) {
         //         tasks.push(task);
         //     }
         // });
-
         paint(data.tasks);
         return data;
     });
 }
-
-
-
 allTasks();

@@ -70,6 +70,7 @@ var paint = function (tasks) {
             var editButton = actionIcons_1.find('button.edit-button').first();
             var deleteButton = actionIcons_1.find('button.delete-button').first();
             var modalDeleteButton_1 = simpleModal.find('button.btn-danger').first();
+            var modalTaskFormSaveButton = formModal.find('button.btn-primary').first();
             newTaskEl_1.bind('update', function () {
                 updateTaskElementOnFrontEnd(newTaskEl_1, taskData);
             });
@@ -83,13 +84,19 @@ var paint = function (tasks) {
             newTaskEl_1.hover(function () {
                 actionIcons_1.toggleClass('invisible');
             });
-            var modalDeleteCallbackName_1 = 'click.id_' + taskData._id.$id;
+            var modalCallbackName_1 = 'click.id_' + taskData._id.$id;
             editButton.click(function () {
+                formModal.data('task', taskData);
                 formModal.modal('toggle');
+                // modalTaskFormSaveButton.on(modalCallbackName, () => {
+                //     // console.log('deleting a task...');
+                //     newTaskEl.trigger('update');
+                //     // simpleModal.modal('toggle');
+                // });
             });
             deleteButton.click(function () {
                 simpleModal.modal('toggle');
-                modalDeleteButton_1.on(modalDeleteCallbackName_1, function () {
+                modalDeleteButton_1.on(modalCallbackName_1, function () {
                     console.log('deleting a task...');
                     newTaskEl_1.trigger('delete');
                     simpleModal.modal('toggle');
@@ -101,9 +108,13 @@ var paint = function (tasks) {
             //         newTaskEl.trigger('delete');
             //     });
             // };
+            // formModal.on('hidden.bs.modal', function (e) {
+            //     // do something...
+            //     modalTaskFormSaveButton.off(modalCallbackName);
+            // });
             simpleModal.on('hidden.bs.modal', function (e) {
                 // do something...
-                modalDeleteButton_1.off(modalDeleteCallbackName_1);
+                modalDeleteButton_1.off(modalCallbackName_1);
             });
             // Setup status change
             dropdown.children('a').each(function (i, el) {
@@ -228,11 +239,33 @@ var okButton = formModal.find('.modal-footer').find('.btn-primary');
 var form = $('#task-form');
 var labelInput = form.find('input[name="label"]').first();
 var labelInputWarning = labelInput.siblings('.invalid-feedback').first();
+var datePicker = form.find('input.datepicker').first();
+var statusSelect = form.find('select[name="status"]').first();
+var statusSelectOptions = statusSelect.children('option');
+formModal.on('show.bs.modal', function () {
+    var taskDataToEdit = formModal.data('task');
+    if (taskDataToEdit && taskDataToEdit !== '') {
+        // const $id = taskDataToEdit._id.$id;
+        var label = taskDataToEdit.label;
+        var taskDueDate = moment.unix(taskDataToEdit.dueDate.sec);
+        var status_1 = taskDataToEdit.status;
+        labelInput.val(label);
+        datePicker.datepicker('update', taskDueDate.toDate());
+    }
+});
 formModal.on('shown.bs.modal', function () {
     labelInput.focus();
 });
+// formModal.on('hide.bs.modal', function () {
+// })
 formModal.on('hidden.bs.modal', function () {
+    var date = newDateWithAddedDays(7);
+    var taskDataToEdit = formModal.data('task');
     labelInputWarning.css('opacity', 0);
+    if (!taskDataToEdit || taskDataToEdit !== '') {
+        formModal.removeData('task');
+        datePicker.datepicker('update', date);
+    }
 });
 form.ajaxForm({
     dataType: 'json',
@@ -281,12 +314,14 @@ var submitTaskForm = function () {
     // form.ajaxSubmit();
 };
 // Initalize datepicker
-var datepicker = form.find('.datepicker');
-datepicker.datepicker({
-    autoclose: true
+datePicker.datepicker({
+    autoclose: true,
+    todayHighlight: true
 });
-datepicker.datepicker('update', newDateWithAddedDays(7));
+var date = newDateWithAddedDays(7);
+datePicker.datepicker('update', date);
 // datepicker.defaults.autoclose = true;
 // function modalOpen() {
 //     console.log('clicked!')
 // }
+

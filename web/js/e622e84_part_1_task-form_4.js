@@ -3,11 +3,33 @@ var okButton = formModal.find('.modal-footer').find('.btn-primary');
 var form = $('#task-form');
 var labelInput = form.find('input[name="label"]').first();
 var labelInputWarning = labelInput.siblings('.invalid-feedback').first();
+var datePicker = form.find('input.datepicker').first();
+var statusSelect = form.find('select[name="status"]').first();
+var statusSelectOptions = statusSelect.children('option');
+formModal.on('show.bs.modal', function () {
+    var taskDataToEdit = formModal.data('task');
+    if (taskDataToEdit && taskDataToEdit !== '') {
+        // const $id = taskDataToEdit._id.$id;
+        var label = taskDataToEdit.label;
+        var taskDueDate = moment.unix(taskDataToEdit.dueDate.sec);
+        var status_1 = taskDataToEdit.status;
+        labelInput.val(label);
+        datePicker.datepicker('update', taskDueDate.toDate());
+    }
+});
 formModal.on('shown.bs.modal', function () {
     labelInput.focus();
 });
+// formModal.on('hide.bs.modal', function () {
+// })
 formModal.on('hidden.bs.modal', function () {
+    var date = newDateWithAddedDays(7);
+    var taskDataToEdit = formModal.data('task');
     labelInputWarning.css('opacity', 0);
+    if (!taskDataToEdit || taskDataToEdit !== '') {
+        formModal.removeData('task');
+        datePicker.datepicker('update', date);
+    }
 });
 form.ajaxForm({
     dataType: 'json',
@@ -56,11 +78,12 @@ var submitTaskForm = function () {
     // form.ajaxSubmit();
 };
 // Initalize datepicker
-var datepicker = form.find('.datepicker');
-datepicker.datepicker({
-    autoclose: true
+datePicker.datepicker({
+    autoclose: true,
+    todayHighlight: true
 });
-datepicker.datepicker('update', newDateWithAddedDays(7));
+var date = newDateWithAddedDays(7);
+datePicker.datepicker('update', date);
 // datepicker.defaults.autoclose = true;
 // function modalOpen() {
 //     console.log('clicked!')

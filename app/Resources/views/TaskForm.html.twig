@@ -1,0 +1,42 @@
+
+<!-- Task Form -->
+<form id='task-form' action="/createaction" method="post">
+  <div class="form-group">
+    <label for="inputLabel">Task Name</label>
+    <input name="label" type="text" title='asdasa' class="form-control" id="inputLabel" aria-describedby="labelHelp" placeholder="" required>
+    {# <small id="labelHelp" class="form-text text-muted">Give the task a name.</small> #}
+    <div class="invalid-feedback" style='display: block; opacity: 0;'>
+        Please enter a task label before saving.
+      </div>
+  </div>
+  <div class="form-row">
+    <div class='col'>
+        <label for="inputDate">Due Date</label>
+        {# <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> #}
+        <br>
+
+        <input name="dueDate" id="inputDate" type="text" class="form-control datepicker">
+        <small id="dateHelp" class="form-text text-muted">When is this task due?</small>
+    </div>
+    <div class='col'>
+        <label for="status-select">Status</label>
+        {# <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> #}
+        <br>
+
+        <select name="status" id="status-select" class="bootstrap-select form-control">
+            <option value="0" selected="selected">Not Done</option>
+            <option value="1">In Progress</option>
+            <option value="2">Completed</option>
+        </select>
+        <small id="status-select-help" class="form-text text-muted">What's the status of this task?</small>
+    </div>
+  </div>
+  
+  {# <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input">
+      Check me out
+    </label>
+  </div> #}
+  {# <button type="submit" class="btn btn-primary">Submit</button> #}
+</form>

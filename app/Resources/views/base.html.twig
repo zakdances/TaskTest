@@ -21,15 +21,16 @@
                 '@popper'
                 '@bootstrap_js'
                 '@bootstrap_datepicker_js'
+                '%kernel.root_dir%/Resources/public/js/*'
                 %}
                 <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
-            {% javascripts 
+            {# {% javascripts 
                 filter='typescript'
                 '%kernel.root_dir%/Resources/public/js/*' 
                 %}
                 <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
+            {% endjavascripts %} #}
             {# <script src="{{ asset('build/app.js') }}"></script> #}
         {% endblock %}
     </body>

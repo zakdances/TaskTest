@@ -1,51 +1,6 @@
 {% extends 'base.html.twig' %}
 
 
-{% block taskform %}
-
-<!-- Task Form -->
-<form id='task-form' action="/createaction" method="post">
-  <div class="form-group">
-    <label for="inputLabel">Task Name</label>
-    <input name="label" type="text" title='asdasa' class="form-control" id="inputLabel" aria-describedby="labelHelp" placeholder="" required>
-    {# <small id="labelHelp" class="form-text text-muted">Give the task a name.</small> #}
-    <div class="invalid-feedback" style='display: block; opacity: 0;'>
-        Please enter a task label before saving.
-      </div>
-  </div>
-  <div class="form-row">
-    <div class='col'>
-        <label for="inputDate">Due Date</label>
-        {# <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> #}
-        <br>
-
-        <input name="dueDate" id="inputDate" type="text" class="form-control datepicker">
-        <small id="dateHelp" class="form-text text-muted">When is this task due?</small>
-    </div>
-    <div class='col'>
-        <label for="status-select">Status</label>
-    {# <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> #}
-    <br>
-
-    <select name="status" id="status-select" class="bootstrap-select form-control">
-        <option value="0" selected="selected">Not Done</option>
-        <option value="1">In Progress</option>
-        <option value="2">Completed</option>
-    </select>
-<small id="status-select-help" class="form-text text-muted">What's the status of this task?</small>
-    </div>
-  </div>
-  
-  {# <div class="form-check">
-    <label class="form-check-label">
-      <input type="checkbox" class="form-check-input">
-      Check me out
-    </label>
-  </div> #}
-  {# <button type="submit" class="btn btn-primary">Submit</button> #}
-</form>
-{% endblock %}
-
 {% block taskentry %}
 <div id="task" class='task container' style='display: none;'>
     <div class='row align-items-center'>
@@ -74,8 +29,8 @@
             
         </div>
         <div class='coll action-icons invisible'>
-            <button type="button" class="btn btn-outline-secondary btn-sm edit-button"><div class='fa fa-pencil fa-fw'></div></button>
-            <button type="button" class="btn btn-outline-secondary btn-sm delete-button"><div class='fa fa-trash fa-fw'></div></button>
+            <button type="button" class="btn btn-light btn-sm edit-button"><div class='fa fa-pencil fa-fw'></div></button>
+            <button type="button" class="btn btn-light btn-sm delete-button"><div class='fa fa-trash fa-fw'></div></button>
         </div>
  
     </div>
@@ -83,60 +38,11 @@
 {% endblock %}
 
 {% block body %}
-    <div class='bg-2'>
-        <div class="wrapper">
-            <div class='vspacee ispacee borderr-b container' style='background-color: transparent;'>
-                <div class='row align-items-center invisible'>
-                    <div class='col-9'>
-                        <small style='margin-top: 0.0em; margin-bottom: 0.0em; font-weight: 800;'>All Tasks</small>
-                    </div>
-                    {# <div class='col'>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#form-modal">Add Task</button>
-                    </div> #}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class='bg-1'>
-        <div class="wrapper">
-            
-            <div class='ispace bg-1' style='padding-bottom: 0;'>
+    
+    {{ include('AppBar.html.twig') }}
 
-                <div id="welcome" class=''>
-                    <h1><span>Welcome to</span> Task Manager™</h1>
-                </div>
-
-                <div id="status" style='display: none;'>
-                    <p>
-                        <svg id="icon-status" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z" fill="#759E1A"/></svg>
-
-                        You can add or edit tasks below.
-                        <br>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form-modal">Add Task</button>
-                        {# <code>{{ base_dir }}</code> #}
-                    </p>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class='bg-3'>
-        <div class="wrapper">
-            <div class='vspace ispace borderr-b container' style='background-color: transparent;'>
-                <div class='row align-items-center'>
-                    {# <div class='col-9'>
-                        <small style='margin-top: 0.0em; margin-bottom: 0.0em; font-weight: 800;'>All Tasks</small>
-                    </div> #}
-                    <div class='col'>
-                        <button type="button" class="btn btn-primary btn" data-toggle="modal" data-target="#form-modal">Add Task</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="wrapper" style='padding-bottom: 3rem;'>
-        <div class='vspace ispace borderr-b container' style='margin-top: 0.5rem; color: #757575; background-color: transparent;'>
+    <div class="wrapper " style='padding-bottom: 3rem;'>
+        <div class='column-labels borderr-b container' style='color: #757575; background-color: transparent;'>
             <div class='row '>
                 <div class='col-1' style=''>
                     <small>Status</small>
@@ -148,8 +54,9 @@
                 <div class='col'><small>Due Date</small></div>
             </div>
         </div>
-        {{ block('taskentry') }}
 
+        {{ block('taskentry') }}
+    
         <!-- Tasks -->
         <div id='tasks' class='tasks'>
 
@@ -172,7 +79,7 @@
         <div class="modal-body">
             {# {% block taskform %}
             {% endblock %} #}
-            {{ block('taskform') }}
+            {{ include('TaskForm.html.twig') }}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -188,17 +95,13 @@
 
 {% block stylesheets %}
 <style>
-    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
-    h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
-    h1 { font-size: 36px; }
-    h2 { font-size: 21px; margin-bottom: 1em; }
-    p { margin: 0 0 1em 0; }
-    a { color: #0000F0; }
-    a:hover { text-decoration: none; }
+    
+
+
     code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
     .wrapper { margin: 0 auto; max-width: 800px; width: 95%; }
     {# #container { padding: 2em; } #}
-    #welcome, #status { margin-bottom: 2em; }
+    {# #welcome, #status { margin-bottom: 2em; } #}
     #welcome h1 span { display: block; font-size: 75%; }
     #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
     #icon-book { display: none; }

@@ -16,6 +16,7 @@ var paint = function (tasks) {
             var editButton = actionIcons_1.find('button.edit-button').first();
             var deleteButton = actionIcons_1.find('button.delete-button').first();
             var modalDeleteButton_1 = simpleModal.find('button.btn-danger').first();
+            var modalTaskFormSaveButton = formModal.find('button.btn-primary').first();
             newTaskEl_1.bind('update', function () {
                 updateTaskElementOnFrontEnd(newTaskEl_1, taskData);
             });
@@ -29,13 +30,19 @@ var paint = function (tasks) {
             newTaskEl_1.hover(function () {
                 actionIcons_1.toggleClass('invisible');
             });
-            var modalDeleteCallbackName_1 = 'click.id_' + taskData._id.$id;
+            var modalCallbackName_1 = 'click.id_' + taskData._id.$id;
             editButton.click(function () {
+                formModal.data('task', taskData);
                 formModal.modal('toggle');
+                // modalTaskFormSaveButton.on(modalCallbackName, () => {
+                //     // console.log('deleting a task...');
+                //     newTaskEl.trigger('update');
+                //     // simpleModal.modal('toggle');
+                // });
             });
             deleteButton.click(function () {
                 simpleModal.modal('toggle');
-                modalDeleteButton_1.on(modalDeleteCallbackName_1, function () {
+                modalDeleteButton_1.on(modalCallbackName_1, function () {
                     console.log('deleting a task...');
                     newTaskEl_1.trigger('delete');
                     simpleModal.modal('toggle');
@@ -47,9 +54,13 @@ var paint = function (tasks) {
             //         newTaskEl.trigger('delete');
             //     });
             // };
+            // formModal.on('hidden.bs.modal', function (e) {
+            //     // do something...
+            //     modalTaskFormSaveButton.off(modalCallbackName);
+            // });
             simpleModal.on('hidden.bs.modal', function (e) {
                 // do something...
-                modalDeleteButton_1.off(modalDeleteCallbackName_1);
+                modalDeleteButton_1.off(modalCallbackName_1);
             });
             // Setup status change
             dropdown.children('a').each(function (i, el) {

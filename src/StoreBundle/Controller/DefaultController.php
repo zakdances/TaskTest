@@ -221,14 +221,15 @@ class DefaultController extends Controller
      */
      public function deleteAction(Request $request)
      {
-        // $data = $request->request;
+        $data = $request->request;
 
-        // $id = $data->get('_id', null)['$id'];
+        $id = $data->get('id', null);
 
-        // $task = $this->oneTask($id);
-        // if (!$task) {
-        //     throw $this->createNotFoundException('No task found for id '.$id);
-        // }
+        $task = $this->oneTask($id);
+
+        if (!$task) {
+            throw $this->createNotFoundException('No task found for id '.$id);
+        }
 
         // $dm = $this->get('doctrine_mongodb')->getManager();
 
@@ -238,11 +239,25 @@ class DefaultController extends Controller
         // $json = array(
         //     "tasks" => $this->allTasks()
         // );
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($task);
+        $em->flush();
+
+        return $this->allTasksJSONResponse();
+     }
+
+     public function allTasksJSONResponse() {
+        $tasks = $this->allTasks();
+        
+        $json = (object)[
+            "tasks" => $this->serializer()->serialize($tasks, 'json')
+        ];
 
         $newResp = new JsonResponse();
+        // $newResp->setContent('');
+        $newResp->setData($json);
 
-        // $newResp->setData($json);
-        // return new Response('Created task id '.$task->getId());
         return $newResp;
      }
 

@@ -1,0 +1,2 @@
+var search = function () {
+};

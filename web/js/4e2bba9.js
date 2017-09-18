@@ -30026,6 +30026,8 @@ var updateTaskElementOnFrontEnd = function (taskEl, taskData, deleteTask) {
     return taskEl;
 };
 
+var search = function () {
+};
 
 var deleteTaskElementOnBackEnd = function (taskEl, taskData) {
     // console.log('adding new task programatically...');
